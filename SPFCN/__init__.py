@@ -21,3 +21,15 @@ def slot_network_training(device_id=1):
     # Train
     auto_train(get_training_set(6535, 50, 224, device_id), net, device_id=device_id,
                epoch_limit=1000, save_path="parameters/")
+
+
+# TODO
+def slot_network_testing(model_path, device_id=1):
+    # Initial
+    setup(19960229)
+
+    #load model 
+    net = SlotNetwork([32, 44, 64, 92, 128], device_id=device_id)
+
+    #Test
+    auto_test(get_testing_set(), net, ...)

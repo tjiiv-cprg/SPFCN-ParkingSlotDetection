@@ -1,10 +1,31 @@
 import time
-
 import cv2
+import torch
+import dill
 
 from SPFCN_Light.slot_detector import Detector
+from SPFCN import slot_network_training, slot_network_testing
 
 if __name__ == "__main__":
+
+    # auto train
+    slot_network_training(device_id=0)
+
+    # auto test 
+    model_path = './SPFCN/'
+    slot_network_testing(model_path, device_id=0)
+
+    # Load detector
+    detector = LoadDetector()
+
+    # Visualize the merge image with result
+    current_frame = cv2.imread("demo.jpg")
+    inference_image = cv2.resize(current_frame, (224, 224))
+    inference_result = detector(inference_image)
+
+
+
+    ### LIGHT VERSION ###
     # Read image
     current_frame = cv2.imread("demo.jpg")
 
