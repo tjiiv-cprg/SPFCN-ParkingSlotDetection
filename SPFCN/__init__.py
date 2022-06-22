@@ -13,18 +13,18 @@ def setup(seed):
     cudnn.deterministic = True
 
 
-def slot_network_training(device_id=1):
+def slot_network_training(device_id=0):
     # Initial
     setup(19960229)
     net = SlotNetwork([32, 44, 64, 92, 128], device_id=device_id)
 
     # Train
-    auto_train(get_training_set(6535, 50, 224, device_id), net, device_id=device_id,
+    auto_train(get_training_set(6535, 12, 224, device_id), net, device_id=device_id,
                epoch_limit=1000, save_path="parameters/")
 
 
 # TODO
-def slot_network_testing(model_path, device_id=1):
+def slot_network_testing(model_path, device_id=0):
     # Initial
     setup(19960229)
 
