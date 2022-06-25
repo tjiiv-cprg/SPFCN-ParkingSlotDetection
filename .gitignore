@@ -18,6 +18,7 @@ lib/
 lib64/
 parts/
 sdist/
+parameters/
 data/
 var/
 wheels/

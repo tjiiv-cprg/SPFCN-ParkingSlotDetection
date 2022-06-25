@@ -74,7 +74,9 @@ def auto_train(dataset,
         if epoch == epoch_limit:
             network.merge()
             stage = "merge_bn"
+
         torch.save(network.state_dict(), "%s%s_epoch%d_loss%d.pkl" % (save_path, stage, epoch, int(epoch_loss)))
+        torch.save()
 
         curr = datetime.now()
         info = '{:02d}:{:02d}:{:02d} '.format(curr.hour, curr.minute, curr.minute)

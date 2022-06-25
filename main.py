@@ -9,7 +9,7 @@ from SPFCN import slot_network_training, slot_network_testing
 if __name__ == "__main__":
 
     # auto train
-    slot_network_training(device_id=0)
+    slot_network_training(data_num=6535, batch_size=10, epoch=10, input_res=224, device_id=0, num_workers=0)
 
     # auto test 
     model_path = './SPFCN/'
