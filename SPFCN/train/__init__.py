@@ -1,4 +1,5 @@
 import os
+import dill
 from datetime import datetime
 
 import torch
@@ -18,10 +19,10 @@ def auto_validate(dataset,
     network.load_state_dict(torch.load(load_path, map_location=device))
     network.eval()
 
-    auto_validator = Validator(dataset, network, device)
-    auto_validator.step()
-    auto_validator.get_network_inference_time()
-    auto_validator.get_detector_inference_time()
+    auto_tester = Validator(dataset, network, device)
+    auto_tester.step()
+    auto_tester.get_network_inference_time()
+    auto_tester.get_detector_inference_time()
 
 
 def auto_train(dataset,
@@ -76,7 +77,7 @@ def auto_train(dataset,
             stage = "merge_bn"
 
         torch.save(network.state_dict(), "%s%s_epoch%d_loss%d.pkl" % (save_path, stage, epoch, int(epoch_loss)))
-        torch.save()
+        torch.save(dill.dumps(network), "%s%s_epoch%d_loss%d.pt" % (save_path, stage, epoch, int(epoch_loss)))
 
         curr = datetime.now()
         info = '{:02d}:{:02d}:{:02d} '.format(curr.hour, curr.minute, curr.minute)
