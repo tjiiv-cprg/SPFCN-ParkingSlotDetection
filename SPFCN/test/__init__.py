@@ -5,10 +5,10 @@ from .tester import Tester
 
 
 @torch.no_grad()
-def auto_test(dataset,
-                  network,
-                  device_id: int = 0,
-                  load_path: str = None):
+def auto_test(dataset, 
+                network,
+                device_id: int = 0,
+                load_path: str = None):
     device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
     
     try: 
@@ -19,7 +19,7 @@ def auto_test(dataset,
         net_path = load_path + '.pt'
         assert os.path.exists(net_path)
         network = torch.load(net_path, map_location=device) 
-        network=dill.loads(network)
+        network= dill.loads(network)
     network.eval()
 
     auto_tester = Tester(dataset, network, device)
