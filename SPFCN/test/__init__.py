@@ -12,14 +12,14 @@ def auto_test(dataset,
     device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
     
     try: 
-        net_path = load_path + '.pkl'
         assert os.path.exists(net_path)
         network.load_state_dict(torch.load(net_path, map_location=device))
     except RuntimeError: 
-        net_path = load_path + '.pt'
+        net_path = load_path.replace('pkl', '.pt')
         assert os.path.exists(net_path)
         network = torch.load(net_path, map_location=device) 
         network= dill.loads(network)
+        
     network.eval()
 
     auto_tester = Tester(dataset, network, device)
