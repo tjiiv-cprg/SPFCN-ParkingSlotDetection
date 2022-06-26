@@ -24,10 +24,10 @@ def slot_network_training(data_num, batch_size, epoch, input_res, device_id=0,  
                epoch_limit=epoch, save_path="parameters/")
 
 
-def slot_network_testing(params_path, data_num, batch_size, input_res, device_id=0,  num_workers=0):
+def slot_network_testing(parameter_path, data_num, batch_size, input_res, device_id=0,  num_workers=0):
     # Initial
     setup(19960229)
     net = SlotNetwork([32, 44, 64, 92, 128], device_id)
 
     # Test
-    auto_test(get_testing_set(data_num, batch_size, input_res, device_id, num_workers=0), net, device_id, params_path)
+    auto_test(get_testing_set(data_num, batch_size, input_res, device_id, num_workers=0), net, device_id, parameter_path)
