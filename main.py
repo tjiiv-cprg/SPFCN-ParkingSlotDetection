@@ -13,22 +13,14 @@ if __name__ == "__main__":
     # slot_network_training(data_num=6535, batch_size=10, epoch=10, input_res=224, device_id=0, num_workers=0)
 
     # load trained model
-    encoder = [32, 44, 64, 92, 128]
-    net = SlotNetwork(encoder, device_id=0)
-    model_path = './parameters/merge_bn_epoch10_loss4.pt'
-    model = torch.load(model_path) 
-    model = dill.loads(model)
+    model_path = './parameters/merge_bn_epoch10_loss4.pkl'
+
 
     # auto test 
-    model_path = './SPFCN/'
-    slot_network_testing(params_path='./parameters/merge_bn_epoch10_loss4', data_num=1500, batch_size=50, input_res=224, device_id=0,  num_workers=0)
+    # slot_network_testing(params_path='./parameters/merge_bn_epoch10_loss4', data_num=1500, batch_size=50, input_res=224, device_id=0,  num_workers=0)
 
     # Load detector
-    config = {
-        'dim_encoder': encoder,
-        'parameter_path': model_path,
-    }
-    detector = SlotDetector(0, config)
+    detector = SlotDetector(device_id=0, dim_encoder=[32, 44, 64, 92, 128], parameter_path=model_path)
 
     # Visualize the merge image with result
     current_frame = cv2.imread("demo.jpg")
@@ -45,7 +37,6 @@ if __name__ == "__main__":
         cv2.line(current_frame, pt0, pt3, (0, 0, 255), thickness=2)
         cv2.line(current_frame, pt1, pt2, (0, 0, 255), thickness=2)
         cv2.line(current_frame, pt2, pt3, (0, 0, 255), thickness=2)
-    cv2.putText(current_frame, "%.2f fps" % infer_fps, (30, 30), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 255))
     cv2.imwrite("result.jpg", current_frame)
 
 
