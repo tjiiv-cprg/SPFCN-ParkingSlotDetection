@@ -74,17 +74,17 @@ class Tester(object):
             try: 
                 mark_recall = mark_co_count / mark_gt_count
             except ZeroDivisionError:
-                print("ZeroDivisionError at mark_re_count")        
+                print("ZeroDivisionError at mark_gt_count")        
 
             try: 
                 slot_precision = slot_co_count / slot_re_count
             except ZeroDivisionError:
-                print("ZeroDivisionError at mark_re_count")
+                print("ZeroDivisionError at slot_re_count")
 
             try: 
                 slot_recall = slot_co_count / slot_gt_count
             except ZeroDivisionError:
-                print("ZeroDivisionError at mark_re_count")
+                print("ZeroDivisionError at slot_gt_count")
 
             print("\rIndex: {}, Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
                   .format(index, mark_precision, mark_recall, slot_precision, slot_recall), end='')

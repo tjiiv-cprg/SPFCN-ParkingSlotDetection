@@ -15,21 +15,19 @@ For vehicles equipped with the automatic parking system, the accuracy and speed 
 
 ## Usage
 
+1. You can set your data path in './SPFCN/dataset/__init__.py'.  
+./data/training/image/
+./data/training/label/
+./data/validating/image/
+./data/validating/label/
+./data/testing/image/
+./data/testing/label/
 
+2. slot_network_training : A function that runs the network training code.
 
-1. 데이터 셋 구성
-./data/train/
-./data/train_raw_label/
-./data/test/all/
-./data/test/test_raw_label/
+3. slot_network_testing : A function that runs the network testing code.
 
-
-
-
-
-
-
-
+4. SlotDetector : A class that helps to return coordinate values ​​that can be used in an image based on the results of the network.
 
 
 ## Performance
