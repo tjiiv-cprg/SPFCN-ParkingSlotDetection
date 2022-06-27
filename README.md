@@ -16,12 +16,6 @@ For vehicles equipped with the automatic parking system, the accuracy and speed 
 ## Usage
 
 1. You can set your data path in './SPFCN/dataset/__init__.py'.  
-./data/training/image/
-./data/training/label/
-./data/validating/image/
-./data/validating/label/
-./data/testing/image/
-./data/testing/label/
 
 2. slot_network_training : A function that runs the network training code.
 
