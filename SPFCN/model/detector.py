@@ -8,7 +8,6 @@ class SlotDetector(object):
     def __init__(self, device_id: int, **kwargs):
         self.device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
         self.config = self.update_config(**kwargs)
-        print(self.config)
         self.network = SlotNetwork(self.config['dim_encoder'], device_id)
         self.network.merge()
         try: 

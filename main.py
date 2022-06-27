@@ -11,11 +11,11 @@ if __name__ == "__main__":
 
     ### ORIGINAL VERSION ###
     # Train model
-    slot_network_training(data_num=6535, batch_size=10, epoch=10, input_res=224, device_id=0, num_workers=0)
+    slot_network_training(data_num=6500, batch_size=32, valid_data_num=1500, valid_batch_size=48, epoch=80, input_res=224, device_id=0, num_workers=0)
     
     # Test model 
-    params_path = './parameters/merge_bn_epoch10_loss4.pkl'
-    slot_network_testing(parameter_path=params_path, data_num=1500, batch_size=50, input_res=224, device_id=0,  num_workers=0)
+    params_path = './parameters/merge_bn_epoch80_loss1.pkl'
+    slot_network_testing(parameter_path=params_path, data_num=1500, batch_size=48, input_res=224, device_id=0,  num_workers=0)
 
     # Load detector
     detector = SlotDetector(device_id=0, dim_encoder=[32, 44, 64, 92, 128], parameter_path=params_path)

@@ -11,21 +11,17 @@ from .validator import Validator
 @torch.no_grad()
 def auto_validate(dataset,
                   network,
-                  device_id: int = 0,
-                  load_path: str = None):
+                  device_id: int = 0):
     device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
-
-    assert os.path.exists(load_path)
-    network.load_state_dict(torch.load(load_path, map_location=device))
     network.eval()
-
-    auto_tester = Validator(dataset, network, device)
-    auto_tester.step()
-    auto_tester.get_network_inference_time()
-    auto_tester.get_detector_inference_time()
+    auto_validator = Validator(dataset, network, device)
+    auto_validator.step()
+    auto_validator.get_network_inference_time()
+    auto_validator.get_detector_inference_time()
 
 
 def auto_train(dataset,
+               valid_dataset,
                network,
                device_id: int = 0,
                load_path: str = None,
@@ -52,7 +48,9 @@ def auto_train(dataset,
     epoch_unit = epoch_limit // 10
     stage = "warm_up"
     auto_trainer = Trainer(dataset, network, device, lr)
+    
     for epoch in range(1, epoch_limit + 1):
+        print("Train model ... ")
         if epoch < epoch_unit:
             pass
         elif epoch == epoch_unit:
@@ -86,4 +84,8 @@ def auto_train(dataset,
         info += 'Time left: ' + 'About {} minutes'.format(int(time_left / 60)) if time_left < 3600 \
             else 'About {} hours'.format(int(time_left / 3600)) if time_left < 36000 else 'Just go to sleep'
         print(info)
+        
+        print("Validate model ... ")
+        auto_validate(valid_dataset, network, device_id)
+
     print(network.get_encoder())

@@ -63,13 +63,34 @@ class Validator(object):
 
             validating_image, validating_label = self.dataset.next()
             index += 1
+
+            mark_precision, mark_recall, slot_precision, slot_recall = -1, -1, -1, -1
+
+            try: 
+                mark_precision = mark_co_count / mark_re_count
+            except ZeroDivisionError:
+                print("ZeroDivisionError at mark_re_count")
+            
+            try: 
+                mark_recall = mark_co_count / mark_gt_count
+            except ZeroDivisionError:
+                print("ZeroDivisionError at mark_gt_count")        
+
+            try: 
+                slot_precision = slot_co_count / slot_re_count
+            except ZeroDivisionError:
+                print("ZeroDivisionError at slot_re_count")
+
+            try: 
+                slot_recall = slot_co_count / slot_gt_count
+            except ZeroDivisionError:
+                print("ZeroDivisionError at slot_gt_count")
+
             print("\rIndex: {}, Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
-                  .format(index, mark_co_count / mark_re_count, mark_co_count / mark_gt_count,
-                          slot_co_count / slot_re_count, slot_co_count / slot_gt_count), end='')
-        print('\r' + ' ' * 50, end="")
-        print("Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
-              .format(mark_co_count / mark_re_count, mark_co_count / mark_gt_count,
-                      slot_co_count / slot_re_count, slot_co_count / slot_gt_count))
+                  .format(index, mark_precision, mark_recall, slot_precision, slot_recall))
+                  
+        print("Current epoch score : Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
+              .format(mark_precision, mark_recall, slot_precision, slot_recall))
 
     def get_network_inference_time(self):
         def foo(img):
@@ -144,6 +165,6 @@ class Validator(object):
             time_step += time() - timestamp
             validating_image, _ = self.dataset.next()
             index += 1
-            print("\rIndex: {}, Inference Time: {:.1f}ms".format(index, 1e3 * time_step / index), end="")
-        print('\r' + ' ' * 40, end="")
+            print("\rIndex: {}, Inference Time: {:.1f}ms".format(index, 1e3 * time_step / index))
+            
         return "Inference Time: {:.1f}ms".format(1e3 * time_step / index)

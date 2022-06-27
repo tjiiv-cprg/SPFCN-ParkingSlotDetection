@@ -28,18 +28,19 @@ def get_training_set(data_size: int,
 def get_validating_set(data_size: int,
                        batch_size: int,
                        resolution: int = 224,
-                       device_id: int = 0):
+                       device_id: int = 0,
+                       num_workers: int = 0.):
     assert 0 < data_size < 1538 and 0 < batch_size and 0 < resolution
     vps_set = VisionParkingSlotDataset(
-        image_path="./data/testing/image/",
-        label_path="./data/testing/label/",
+        image_path="./data/validating/image/",
+        label_path="./data/validating/label/",
         data_size=data_size,
         resolution=resolution)
     if device_id < 0:
-        return DataLoader(dataset=vps_set, shuffle=True, batch_size=batch_size, num_workers=4)
+        return DataLoader(dataset=vps_set, shuffle=True, batch_size=batch_size, num_workers=num_workers)
     else:
         return DataPrefetcher(device=torch.device('cuda:%d' % device_id),
-                              dataset=vps_set, batch_size=batch_size, shuffle=False)
+                              dataset=vps_set, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
 
 def get_testing_set(data_size: int,
