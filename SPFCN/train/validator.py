@@ -34,13 +34,13 @@ class Validator(object):
                 self.slot_detect(gt_mark[0, 0], gt_direction, True)
             mark_gt_count += gt_mark_count
             slot_gt_count += gt_slot_count
-
+              
             re_mark, re_direction = self.network(validating_image)
             re_mark_count, re_mark_map, re_slot_count, re_slot_list = \
                 self.slot_detect(re_mark[0, 0], re_direction, False)
             mark_re_count += re_mark_count
             slot_re_count += re_slot_count
-
+     
             for ind in range(re_mark_count):
                 re_x = int(re_mark_map[ind, 0])
                 re_y = int(re_mark_map[ind, 1])
@@ -49,7 +49,7 @@ class Validator(object):
                 distance = gt_mark[0, 0, re_x - 1:re_x + 2, re_y - 1:re_y + 2].sum()
                 if angle > self.direct_threshold and distance > self.mgt_threshold:
                     mark_co_count += 1
-
+     
             for ind in range(re_slot_count):
                 re_pt = re_slot_list[ind]
                 for jnd in range(gt_slot_count):
@@ -60,10 +60,9 @@ class Validator(object):
                     count_or = np.sum(cv2.bitwise_or(mask_re, mask_gt))
                     if count_and > self.iou_threshold * count_or:
                         slot_co_count += 1
-
+      
             validating_image, validating_label = self.dataset.next()
             index += 1
-
             mark_precision, mark_recall, slot_precision, slot_recall = -1, -1, -1, -1
 
             try: 
@@ -115,13 +114,13 @@ class Validator(object):
                                             (mark > torch.cat((self.const_h, mark[:-1, :]), dim=0)) *
                                             (mark > torch.cat((mark[:, 1:], self.const_w), dim=1)) *
                                             (mark > torch.cat((self.const_w, mark[:, :-1]), dim=1)))
-
+        
         mark_count = len(mark_prediction)
         mark_map = torch.zeros([mark_count, 4]).to(self.device)
         mark_map[:, 0:2] = mark_prediction
         for item in mark_map:
             item[2:] = direction[0, :, item[0].int(), item[1].int()]
-
+        
         # Distance map generate
         distance_map = torch.zeros([mark_count, mark_count]).to(self.device)
         for i in range(0, mark_count - 1):
@@ -144,13 +143,12 @@ class Validator(object):
                     vy = torch.abs(mark_map[i, 1] - mark_map[j, 1]) / distance
                     delta_x = -slot_length * vx if mark_map[i, 2] < 0 else slot_length * vx
                     delta_y = -slot_length * vy if mark_map[i, 3] < 0 else slot_length * vy
-
                     slot_list.append(((int(mark_map[i, 1]), int(mark_map[i, 0])),
                                       (int(mark_map[j, 1]), int(mark_map[j, 0])),
                                       (int(mark_map[j, 1] + delta_x), int(mark_map[j, 0] + delta_y)),
                                       (int(mark_map[i, 1] + delta_x), int(mark_map[i, 0] + delta_y))))
                     break
-
+                        
         return mark_count, mark_map, len(slot_list), slot_list
 
     def get_inference_time(self, foo):

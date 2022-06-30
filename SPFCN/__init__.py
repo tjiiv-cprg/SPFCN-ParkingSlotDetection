@@ -18,7 +18,7 @@ def slot_network_training(data_num, batch_size, valid_data_num, valid_batch_size
     # Initial
     setup(19960229)
     net = SlotNetwork([32, 44, 64, 92, 128], device_id=device_id)
-
+    
     # Train
     auto_train(get_training_set(data_num, batch_size, input_res, device_id, num_workers), 
                get_validating_set(valid_data_num, valid_batch_size, input_res, device_id, num_workers),

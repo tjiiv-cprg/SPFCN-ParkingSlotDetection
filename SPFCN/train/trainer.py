@@ -22,6 +22,7 @@ class Trainer(object):
         index = 1
         sum_loss = 0
         while training_images is not None and training_labels is not None:
+            print(training_images.shape)
             mark, direction = self.network(training_images)
 
             step_loss = self.cost_function(mark, direction, training_labels)
