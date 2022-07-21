@@ -87,9 +87,9 @@ class Tester(object):
                 print("ZeroDivisionError at slot_gt_count")
 
             print("\rIndex: {}, Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
-                  .format(index, mark_precision, mark_recall, slot_precision, slot_recall), end='')
-        print('\r' + ' ' * 50, end="")
-        print("Total score - Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
+                  .format(index, mark_precision, mark_recall, slot_precision, slot_recall))
+        # print('\r' + ' ' * 50, end="")
+        print("Mark: Precision {:.4f}, Recall {:.4f}, Slot: Precision {:.4f}, Recall {:.4f}"
               .format(mark_precision, mark_recall, slot_precision, slot_recall))
 
     def get_network_inference_time(self):
@@ -166,5 +166,5 @@ class Tester(object):
             testing_image, _ = self.dataset.next()
             index += 1
             print("\rIndex: {}, Inference Time: {:.1f}ms".format(index, 1e3 * time_step / index), end="")
-        print('\r' + ' ' * 40, end="")
+        # print('\r' + ' ' * 40, end="")
         return "Inference Time: {:.1f}ms".format(1e3 * time_step / index)

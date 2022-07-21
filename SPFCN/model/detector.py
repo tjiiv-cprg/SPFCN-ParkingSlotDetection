@@ -14,8 +14,8 @@ class SlotDetector(object):
             self.network.load_state_dict(torch.load(self.config['parameter_path'], map_location=self.device))
         except RuntimeError:
             net_path = self.config['parameter_path'].replace('.pkl', '.pt')
-            network = torch.load(net_path, map_location=self.device) 
-            self.network= dill.loads(network)
+            network = torch.load(self.config['parameter_path'], map_location=self.device)
+            self.network = dill.loads(network)
         self.network.eval()
 
     def update_config(self, **kwargs):
@@ -82,5 +82,5 @@ class SlotDetector(object):
                                       (mark_map[i, 1] + delta_x, mark_map[i, 0] + delta_y)))
                     break
 
-        print(f'mark : {mark.shape} / mark_prediction : {mark_prediction.shape} / mark_map : {mark_map.shape} / direction : {direction.shape} / item : {item.shape} / distance_map : {distance_map.shape} / slot_list : {slot_list.shape}')
+        print(f'slot_list : {slot_list}')
         return slot_list

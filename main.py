@@ -11,13 +11,11 @@ if __name__ == "__main__":
 
     ### ORIGINAL VERSION ###
     # Train model
-    # data_num=6500, batch_size=32, valid_data_num=1000, valid_batch_size=32,
-    # data_num=1000, batch_size=32, valid_data_num=100, valid_batch_size=32
-    slot_network_training(data_num=1000, batch_size=32, valid_data_num=100, valid_batch_size=32, epoch=80, input_res=224, device_id=0, num_workers=1)
+    slot_network_training(data_num=6500, batch_size=50, valid_data_num=1500, valid_batch_size=32, epoch=100, input_res=224, device_id=0, num_workers=4)
     
     # Test model 
-    params_path = './parameters/merge_bn_epoch10_loss4.pkl'
-    slot_network_testing(parameter_path=params_path, data_num=1500, batch_size=50, input_res=224, device_id=0,  num_workers=1)
+    params_path = './parameters/merge_bn_epoch80_loss4.pkl'
+    slot_network_testing(parameter_path=params_path, data_num=1500, batch_size=50, input_res=224, device_id=0)
 
     # Load detector
     detector = SlotDetector(device_id=0, dim_encoder=[32, 44, 64, 92, 128], parameter_path=params_path)
@@ -37,7 +35,7 @@ if __name__ == "__main__":
         cv2.line(current_frame, pt0, pt3, (0, 0, 255), thickness=2)
         cv2.line(current_frame, pt1, pt2, (0, 0, 255), thickness=2)
         cv2.line(current_frame, pt2, pt3, (0, 0, 255), thickness=2)
-    cv2.imwrite("result.jpg", current_frame)
+    cv2.imwrite("original_result.jpg", current_frame)
 
 
     ### LIGHT VERSION ###
@@ -63,4 +61,4 @@ if __name__ == "__main__":
         cv2.line(current_frame, pt1, pt3, (0, 0, 255), thickness=2)
         cv2.line(current_frame, pt2, pt3, (0, 0, 255), thickness=2)
     cv2.putText(current_frame, "%.2f fps" % infer_fps, (30, 30), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 255))
-    cv2.imwrite("result.jpg", current_frame)
+    cv2.imwrite("light_result.jpg", current_frame)
