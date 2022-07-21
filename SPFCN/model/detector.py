@@ -81,4 +81,6 @@ class SlotDetector(object):
                                       (mark_map[j, 1] + delta_x, mark_map[j, 0] + delta_y),
                                       (mark_map[i, 1] + delta_x, mark_map[i, 0] + delta_y)))
                     break
+
+        print(f'mark : {mark.shape} / mark_prediction : {mark_prediction.shape} / mark_map : {mark_map.shape} / direction : {direction.shape} / item : {item.shape} / distance_map : {distance_map.shape} / slot_list : {slot_list.shape}')
         return slot_list

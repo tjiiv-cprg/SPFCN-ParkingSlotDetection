@@ -11,7 +11,9 @@ if __name__ == "__main__":
 
     ### ORIGINAL VERSION ###
     # Train model
-    slot_network_training(data_num=10, batch_size=12, valid_data_num=1500, valid_batch_size=32, epoch=10, input_res=224, device_id=0, num_workers=1)
+    # data_num=6500, batch_size=32, valid_data_num=1000, valid_batch_size=32,
+    # data_num=1000, batch_size=32, valid_data_num=100, valid_batch_size=32
+    slot_network_training(data_num=1000, batch_size=32, valid_data_num=100, valid_batch_size=32, epoch=80, input_res=224, device_id=0, num_workers=1)
     
     # Test model 
     params_path = './parameters/merge_bn_epoch10_loss4.pkl'

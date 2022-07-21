@@ -16,8 +16,6 @@ def auto_validate(dataset,
     network.eval()
     auto_validator = Validator(dataset, network, device)
     auto_validator.step()
-    auto_validator.get_network_inference_time()
-    auto_validator.get_detector_inference_time()
 
 
 def auto_train(dataset,
@@ -48,6 +46,7 @@ def auto_train(dataset,
     epoch_unit = epoch_limit // 10
     stage = "warm_up"
     auto_trainer = Trainer(dataset, network, device, lr)
+    auto_validator = Validator(valid_dataset, network, device, lr)
     
     for epoch in range(1, epoch_limit + 1):
         print("Train model ... ")
@@ -84,8 +83,12 @@ def auto_train(dataset,
         info += 'Time left: ' + 'About {} minutes'.format(int(time_left / 60)) if time_left < 3600 \
             else 'About {} hours'.format(int(time_left / 3600)) if time_left < 36000 else 'Just go to sleep'
         print(info)
-        
-        print("Validate model ... ")
-        auto_validate(valid_dataset, network, device_id)
 
-    print(network.get_encoder())
+        print("Validate model ... ")
+        network.eval()
+        auto_validator.set_network(network)
+        with torch.no_grad():
+            valid_epoch_loss = auto_validator.step()
+            valid_info = 'Validation - Epoch: {}/{}[{}], Loss: {:.3f}, '.format(epoch, epoch_limit, stage, valid_epoch_loss)
+            print(valid_info)
+
