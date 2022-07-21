@@ -26,7 +26,7 @@ def slot_network_training(data_num, batch_size, valid_data_num, valid_batch_size
                epoch_limit=epoch, save_path="parameters/")
 
 
-def slot_network_testing(parameter_path, data_num, batch_size, input_res, device_id=0,  num_workers=0):
+def slot_network_testing(parameter_path, data_num, batch_size, input_res, device_id=0):
     # Initial
     setup(19960229)
     net = SlotNetwork([32, 44, 64, 92, 128], device_id)

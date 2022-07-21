@@ -73,7 +73,6 @@ class Detector(object):
         self.device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
         self._network = Hourglass([1, 40, 56, 55, 60, 59, 61, 59, 60, 55, 56, 40, 3]).to(self.device)
         self._network.load_state_dict(torch.load(file_name), strict=True)
-        print("Success load file {}.".format(file_name))
         self._network.eval()
 
         self.temp_h = torch.ones((1, 224)).to(self.device)
