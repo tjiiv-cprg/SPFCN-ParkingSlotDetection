@@ -1,7 +1,5 @@
-from time import time
-
 import torch
-
+from time import time
 from .loss import FocalLossWithTrigonometric
 
 

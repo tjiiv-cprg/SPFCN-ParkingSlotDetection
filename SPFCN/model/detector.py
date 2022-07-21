@@ -1,4 +1,5 @@
 import torch
+import dill
 
 from .network import SlotNetwork
 
@@ -7,10 +8,14 @@ class SlotDetector(object):
     def __init__(self, device_id: int, **kwargs):
         self.device = torch.device('cpu' if device_id < 0 else 'cuda:%d' % device_id)
         self.config = self.update_config(**kwargs)
-
         self.network = SlotNetwork(self.config['dim_encoder'], device_id)
         self.network.merge()
-        self.network.load_state_dict(torch.load(self.config['parameter_path'], map_location=self.device))
+        try: 
+            self.network.load_state_dict(torch.load(self.config['parameter_path'], map_location=self.device))
+        except RuntimeError:
+            net_path = self.config['parameter_path'].replace('.pkl', '.pt')
+            network = torch.load(self.config['parameter_path'], map_location=self.device)
+            self.network = dill.loads(network)
         self.network.eval()
 
     def update_config(self, **kwargs):
@@ -76,4 +81,6 @@ class SlotDetector(object):
                                       (mark_map[j, 1] + delta_x, mark_map[j, 0] + delta_y),
                                       (mark_map[i, 1] + delta_x, mark_map[i, 0] + delta_y)))
                     break
+
+        print(f'slot_list : {slot_list}')
         return slot_list

@@ -14,7 +14,15 @@ Paper link: https://arxiv.org/abs/2003.11337
 For vehicles equipped with the automatic parking system, the accuracy and speed of the parking slot detection are crucial. But the high accuracy is obtained at the price of low speed or expensive computation equipment, which are sensitive for many car manufacturers. In this paper, we proposed a detector using CNN(convolutional neural networks) for faster speed and smaller model size while keeps accuracy. To achieve the optimal balance, we developed a strategy to select the best receptive ﬁelds and prune the redundant channels automatically after each training epoch. The proposed model is capable of jointly detecting corners and line features of parking slots while running efﬁciently in real time on average processors. The model has a frame rate of about 30 FPS on a 2.3 GHz CPU core, yielding parking slot corner localization error of 1.51±2.14 cm (std. err.) and slot detection accuracy of 98%, generally satisfying the requirements in both speed and accuracy on onboard mobile terminals.
 
 ## Usage
-Detailed instructions will be given soon.
+
+1. You can set your data path in './SPFCN/dataset/__init__.py'.  
+
+2. slot_network_training : A function that runs the network training code.
+
+3. slot_network_testing : A function that runs the network testing code.
+
+4. SlotDetector : A class that helps to return coordinate values ​​that can be used in an image based on the results of the network.
+
 
 ## Performance
 The training and test data set is https://cslinzhang.github.io/deepps/

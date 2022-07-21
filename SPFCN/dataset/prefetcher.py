@@ -3,12 +3,12 @@ from torch.utils.data import DataLoader
 
 
 class DataPrefetcher(object):
-    def __init__(self, dataset, batch_size, shuffle, device):
+    def __init__(self, dataset, batch_size, shuffle, device, num_workers):
         self.stream = torch.cuda.Stream(device=device)
         self.device = device
 
         self.loader = DataLoader(dataset=dataset, shuffle=shuffle, batch_size=batch_size,
-                                 num_workers=4, pin_memory=True)
+                                 num_workers=num_workers, pin_memory=True)
         self.fetcher = None
         self.next_images = None
         self.next_labels = None
